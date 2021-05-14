@@ -1,6 +1,6 @@
 name: tig_ep_bluetooth
 description: A new Flutter package project.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/liunina/tig_ep_bluetooth
 
 environment:
@@ -10,9 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rxdart: ^0.23.1
+  rxdart: ^0.27.0
   tig_ep_utils: ^0.0.4
-  flutter_bluetooth_basic: ^0.1.5
+  tig_bluetooth_basic: ^0.0.1
 
 dev_dependencies:
   flutter_test:

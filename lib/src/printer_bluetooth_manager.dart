@@ -10,7 +10,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:tig_ep_utils/tig_ep_utils.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter_bluetooth_basic/flutter_bluetooth_basic.dart';
+import 'package:tig_bluetooth_basic/tig_bluetooth_basic.dart';
 import './enums.dart';
 
 /// Bluetooth printer
