@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:image/image.dart';
 import 'package:tig_ep_utils/tig_ep_utils.dart';
 import 'package:tig_ep_bluetooth/tig_ep_bluetooth.dart';
+import 'package:tig_bluetooth_basic/tig_bluetooth_basic.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:oktoast/oktoast.dart';
 
@@ -38,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    _logState();
 
     printerManager.scanResults.listen((devices) async {
       // print('UI: Devices found ${devices.length}');
@@ -47,7 +49,35 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<void> _logState() async {
+    // bool isAvailable = await printerManager.isAvailable;
+    // print("22222 isAvailable: $isAvailable");
+
+    // bool isOn = await printerManager.isOn;
+    // print("333333 isOn: $isOn");
+
+    printerManager.state.listen((state) {
+      switch (state) {
+        case BluetoothManager.BLE_OFF:
+          print("object1111 BLE_OFF");
+          break;
+        case BluetoothManager.BLE_ON:
+          print("object1111 BLE_ON");
+          break;
+        case BluetoothManager.CONNECTED:
+          print("object1111 CONNECTED");
+          break;
+        case BluetoothManager.DISCONNECTED:
+          print("object1111 DISCONNECTED");
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
   void _startScanDevices() {
+    // _logState();
     setState(() {
       _devices = [];
     });

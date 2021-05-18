@@ -2,33 +2,33 @@ PODS:
   - charset_converter (0.0.1):
     - Flutter
   - Flutter (1.0.0)
-  - flutter_bluetooth_basic (0.0.1):
-    - Flutter
   - path_provider (0.0.1):
+    - Flutter
+  - tig_bluetooth_basic (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - charset_converter (from `.symlinks/plugins/charset_converter/ios`)
   - Flutter (from `Flutter`)
-  - flutter_bluetooth_basic (from `.symlinks/plugins/flutter_bluetooth_basic/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - tig_bluetooth_basic (from `.symlinks/plugins/tig_bluetooth_basic/ios`)
 
 EXTERNAL SOURCES:
   charset_converter:
     :path: ".symlinks/plugins/charset_converter/ios"
   Flutter:
     :path: Flutter
-  flutter_bluetooth_basic:
-    :path: ".symlinks/plugins/flutter_bluetooth_basic/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  tig_bluetooth_basic:
+    :path: ".symlinks/plugins/tig_bluetooth_basic/ios"
 
 SPEC CHECKSUMS:
   charset_converter: 215c7b04932ec2b9ba43be96a9bc34afed3e5322
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  flutter_bluetooth_basic: 0e4e27e22b50b3a25cc1d1e131953feb4af414f4
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  tig_bluetooth_basic: 97244632fc9f390f6e213645569af0be9659d318
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: 3dffd8c48b531d21ec0ec153c22dc8e3a6223bc9
 
 COCOAPODS: 1.10.1

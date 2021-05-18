@@ -43,6 +43,9 @@ class PrinterBluetoothManager {
     return Future<dynamic>.delayed(Duration(seconds: seconds));
   }
 
+  ///
+  /// 开始扫描周围蓝牙设备
+  ///
   void startScan(Duration timeout) async {
     _scanResults.add(<PrinterBluetooth>[]);
 
@@ -63,14 +66,30 @@ class PrinterBluetoothManager {
     });
   }
 
+  ///
+  /// 停止扫描蓝牙设备
+  ///
   void stopScan() async {
     await _bluetoothManager.stopScan();
   }
 
+  ///
+  /// 选中需要链接的蓝牙打印机
+  ///
   void selectPrinter(PrinterBluetooth printer) {
     _selectedPrinter = printer;
   }
 
+  ///
+  ///  获取当前已连接的蓝牙设备当前状态监控
+  ///
+  Stream<int> get state async* {
+    yield* _bluetoothManager.state;
+  }
+
+  ///
+  /// 对蓝牙设备进行写数据
+  ///
   Future<PosPrintResult> writeBytes(
     List<int> bytes, {
     int chunkSizeBytes = 20,
@@ -99,7 +118,14 @@ class PrinterBluetoothManager {
     // Subscribe to the events
     _bluetoothManager.state.listen((state) async {
       switch (state) {
+        case BluetoothManager.BLE_OFF:
+          print("objec22222222 BLE_OFF");
+          break;
+        case BluetoothManager.BLE_ON:
+          print("objec22222222 BLE_ON");
+          break;
         case BluetoothManager.CONNECTED:
+          print("objec22222222 CONNECTED");
           // To avoid double call
           if (!_isConnected) {
             final len = bytes.length;
@@ -125,6 +151,7 @@ class PrinterBluetoothManager {
           break;
         case BluetoothManager.DISCONNECTED:
           _isConnected = false;
+          print("objec22222222 DISCONNECTED");
           break;
         default:
           break;
@@ -142,6 +169,9 @@ class PrinterBluetoothManager {
     return completer.future;
   }
 
+  ///
+  /// 开始打印
+  ///
   Future<PosPrintResult> printTicket(
     Ticket ticket, {
     int chunkSizeBytes = 20,
