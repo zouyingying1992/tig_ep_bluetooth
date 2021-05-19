@@ -1,3 +1,7 @@
+## [0.0.7] - TODO: Add release date.
+
+- update tig_bluetooth_basic.
+
 ## [0.0.6] - TODO: Add release date.
 
 - update tig_bluetooth_basic.
