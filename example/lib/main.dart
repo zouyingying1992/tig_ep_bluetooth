@@ -30,7 +30,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   List<PrinterBluetoothLocal> _devices = [];
   PrinterBluetoothManger printerBluetoothManger;
   @override
@@ -38,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _logState();
     // ignore: missing_return
-    printerBluetoothManger= PrinterBluetoothManger((event){
+    printerBluetoothManger = PrinterBluetoothManger((event) {
       print("哈哈哈哈哈哈哈哈哈哈111：evern:$event");
     });
   }
@@ -76,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _devices = [];
     });
     // ignore: missing_return
-    printerBluetoothManger.startScan(Duration(seconds: 4),(data){
+    printerBluetoothManger.startScan(Duration(seconds: 4), (data) {
       setState(() {
         _devices = data.cast<PrinterBluetoothLocal>();
       });
@@ -98,7 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
     ticket.text('Align center', styles: PosStyles(align: PosAlign.center));
     ticket.text('Align right',
         styles: PosStyles(align: PosAlign.right), linesAfter: 1);
-
 
     // Print image
     // final ByteData data = await rootBundle.load('assets/logo.png');
@@ -124,7 +122,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _testPrint(PrinterBluetoothLocal printer) async {
-    final PosPrintResult res =  await printerBluetoothManger.printTicket(await testTicket(), printer);
+    print("current printer is" + printer.name);
+    final PosPrintResult res =
+        await printerBluetoothManger.printTicket(await testTicket(), printer);
     showToast(res.msg);
   }
 

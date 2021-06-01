@@ -1,3 +1,7 @@
+## [0.0.8] - TODO: Add release date.
+
+- 分拆 iOS 和安卓函数实现.
+
 ## [0.0.7] - TODO: Add release date.
 
 - update tig_bluetooth_basic.
