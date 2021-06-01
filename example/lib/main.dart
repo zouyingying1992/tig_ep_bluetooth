@@ -1,9 +1,6 @@
-import 'dart:typed_data';
-import 'package:flutter/services.dart';
-import 'package:image/image.dart';
-import 'package:tig_ep_utils/tig_ep_utils.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:tig_ep_bluetooth/tig_ep_bluetooth.dart';
-import 'package:tig_bluetooth_basic/tig_bluetooth_basic.dart';
+import 'package:tig_ep_utils/tig_ep_utils.dart';
 import 'package:flutter/material.dart' hide Image;
 import 'package:oktoast/oktoast.dart';
 
@@ -33,19 +30,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  PrinterBluetoothManager printerManager = PrinterBluetoothManager();
-  List<PrinterBluetooth> _devices = [];
 
+  List<PrinterBluetoothLocal> _devices = [];
+  PrinterBluetoothManger printerBluetoothManger;
   @override
   void initState() {
     super.initState();
     _logState();
-
-    printerManager.scanResults.listen((devices) async {
-      // print('UI: Devices found ${devices.length}');
-      setState(() {
-        _devices = devices;
-      });
+    // ignore: missing_return
+    printerBluetoothManger= PrinterBluetoothManger((event){
+      print("哈哈哈哈哈哈哈哈哈哈111：evern:$event");
     });
   }
 
@@ -55,25 +49,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // bool isOn = await printerManager.isOn;
     // print("333333 isOn: $isOn");
-
-    printerManager.state.listen((state) {
-      switch (state) {
-        case BluetoothManager.BLE_OFF:
-          print("object1111 BLE_OFF");
-          break;
-        case BluetoothManager.BLE_ON:
-          print("object1111 BLE_ON");
-          break;
-        case BluetoothManager.CONNECTED:
-          print("object1111 CONNECTED");
-          break;
-        case BluetoothManager.DISCONNECTED:
-          print("object1111 DISCONNECTED");
-          break;
-        default:
-          break;
-      }
-    });
+    //
+    // printerManager.state.listen((state) {
+    //   switch (state) {
+    //     case BluetoothManager.BLE_OFF:
+    //       print("object1111 BLE_OFF");
+    //       break;
+    //     case BluetoothManager.BLE_ON:
+    //       print("object1111 BLE_ON");
+    //       break;
+    //     case BluetoothManager.CONNECTED:
+    //       print("object1111 CONNECTED");
+    //       break;
+    //     case BluetoothManager.DISCONNECTED:
+    //       print("object1111 DISCONNECTED");
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // });
   }
 
   void _startScanDevices() {
@@ -81,22 +75,20 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _devices = [];
     });
-    printerManager.startScan(Duration(seconds: 4));
+    // ignore: missing_return
+    printerBluetoothManger.startScan(Duration(seconds: 4),(data){
+      setState(() {
+        _devices = data.cast<PrinterBluetoothLocal>();
+      });
+    });
   }
 
   void _stopScanDevices() {
-    printerManager.stopScan();
+    printerBluetoothManger.stopScan();
   }
 
   Future<Ticket> testTicket() async {
     final Ticket ticket = Ticket(PaperSize.mm58);
-
-    ticket.text(
-        'Regular: aA bB cC dD eE fF gG hH iI jJ kK lL mM nN oO pP qQ rR sS tT uU vV wW xX yY zZ');
-    ticket.text('Special 1: àÀ èÈ éÉ ûÛ üÜ çÇ ôÔ',
-        styles: PosStyles(codeTable: PosCodeTable.westEur));
-    ticket.text('Special 2: blåbærgrød',
-        styles: PosStyles(codeTable: PosCodeTable.westEur));
 
     ticket.text('Bold text', styles: PosStyles(bold: true));
     ticket.text('Reverse text', styles: PosStyles(reverse: true));
@@ -107,29 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
     ticket.text('Align right',
         styles: PosStyles(align: PosAlign.right), linesAfter: 1);
 
-    ticket.row([
-      PosColumn(
-        text: 'col3',
-        width: 3,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: 'col6',
-        width: 6,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-      PosColumn(
-        text: 'col3',
-        width: 3,
-        styles: PosStyles(align: PosAlign.center, underline: true),
-      ),
-    ]);
-
-    ticket.text('Text size 200%',
-        styles: PosStyles(
-          height: PosTextSize.size2,
-          width: PosTextSize.size2,
-        ));
 
     // Print image
     // final ByteData data = await rootBundle.load('assets/logo.png');
@@ -154,11 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return ticket;
   }
 
-  void _testPrint(PrinterBluetooth printer) async {
-    printerManager.selectPrinter(printer);
-
-    final PosPrintResult res =
-        await printerManager.printTicket(await testTicket());
+  void _testPrint(PrinterBluetoothLocal printer) async {
+    final PosPrintResult res =  await printerBluetoothManger.printTicket(await testTicket(), printer);
     showToast(res.msg);
   }
 
@@ -189,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(_devices[index].name ?? ''),
-                              Text(_devices[index].address),
+                              Text(_devices[index].mac),
                               Text(
                                 'Click to print a test receipt',
                                 style: TextStyle(color: Colors.grey[700]),
@@ -206,7 +172,6 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }),
       floatingActionButton: StreamBuilder<bool>(
-        stream: printerManager.isScanningStream,
         initialData: false,
         builder: (c, snapshot) {
           if (snapshot.data) {
