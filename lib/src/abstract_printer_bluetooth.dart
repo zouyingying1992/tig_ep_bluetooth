@@ -8,6 +8,7 @@ abstract class AbstractPrinterBluetooth{
   void startScan(Duration timeout,ScanResultsCallback callback);
   Future<bool> connect(PrinterBluetoothLocal bluetooth);
   Future<bool> disconnect(PrinterBluetoothLocal bluetooth);
+  Future<bool> isConnected();
   void stopScan();
   Future<PosPrintResult> writeBytes(
       List<int> bytes,PrinterBluetoothLocal bluetooth,

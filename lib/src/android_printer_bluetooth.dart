@@ -88,4 +88,9 @@ class AndroidPrinterBluetooth extends AbstractPrinterBluetooth {
       return false;
     });
   }
+
+  @override
+  Future<bool> isConnected() async {
+   return await bluetoothPrinter.isConnected;
+  }
 }
