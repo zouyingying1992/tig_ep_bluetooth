@@ -29,7 +29,8 @@ class IosPrinterBluetooth extends AbstractPrinterBluetooth {
 
   Stream<bool> get isScanningStream => _isScanning.stream;
 
-  final BehaviorSubject<List<PrinterBluetooth>> _scanResults = BehaviorSubject.seeded([]);
+  final BehaviorSubject<List<PrinterBluetooth>> _scanResults =
+      BehaviorSubject.seeded([]);
 
   Stream<List<PrinterBluetooth>> get scanResults => _scanResults.stream;
 
@@ -50,13 +51,16 @@ class IosPrinterBluetooth extends AbstractPrinterBluetooth {
       if (_scanResults != null && _scanResults.value.length > 0) {
         List<PrinterBluetoothLocal> data = [];
         for (int i = 0; i < _scanResults.value.length; i++) {
-          data.add(PrinterBluetoothLocal(name: _scanResults.value[i].name, mac: _scanResults.value[i].address));
+          data.add(PrinterBluetoothLocal(
+              name: _scanResults.value[i].name,
+              mac: _scanResults.value[i].address));
         }
         callback.call(data);
       }
     });
 
-    _isScanningSubscription = _bluetoothManager.isScanning.listen((isScanningCurrent) async {
+    _isScanningSubscription =
+        _bluetoothManager.isScanning.listen((isScanningCurrent) async {
       // If isScanning value changed (scan just stopped)
       if (_isScanning.value && !isScanningCurrent) {
         _scanResultsSubscription.cancel();
@@ -92,7 +96,7 @@ class IosPrinterBluetooth extends AbstractPrinterBluetooth {
     final Completer<PosPrintResult> completer = Completer();
 
     const int timeout = 5;
-    if (_selectedPrinter == null) {
+    if (bluetooth == null) {
       return Future<PosPrintResult>.value(PosPrintResult.printerNotSelected);
     } else if (_isScanning.value) {
       return Future<PosPrintResult>.value(PosPrintResult.scanInProgress);

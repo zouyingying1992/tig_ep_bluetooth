@@ -12,7 +12,6 @@ typedef ScanResultsCallback =  Function(List<PrinterBluetoothLocal>);
 typedef BlueStateCallback =  Function(int);
 
 class PrinterBluetoothManager {
-
   static const int STATE_OFF = 10;
   static const int STATE_TURNING_ON = 11;
 
@@ -61,7 +60,8 @@ class PrinterBluetoothManager {
     int chunkSizeBytes = 20,
     int queueSleepTimeMs = 20,
   }) {
-    return _printerBluetooth.writeBytes(bytes, bluetooth, chunkSizeBytes, queueSleepTimeMs);
+    return _printerBluetooth.writeBytes(
+        bytes, bluetooth, chunkSizeBytes, queueSleepTimeMs);
   }
 
   ///

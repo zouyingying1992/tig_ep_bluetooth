@@ -73,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _devices = [];
     });
+
     printerBluetoothManger.startScan(Duration(seconds: 4), (data) {
       setState(() {
         _devices = data.cast<PrinterBluetoothLocal>();
@@ -118,7 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _testPrint(PrinterBluetoothLocal printer) async {
-    final PosPrintResult res = await printerBluetoothManger.printTicket(await testTicket(), printer);
+    print("current printer is" + printer.name);
+    final PosPrintResult res =
+        await printerBluetoothManger.printTicket(await testTicket(), printer);
     showToast(res.msg);
   }
 
