@@ -24,7 +24,8 @@ class AndroidPrinterBluetooth extends AbstractPrinterBluetooth {
         List<PrinterBluetoothLocal> list = [];
         for (int i = 0; i < bluetoothList.length; i++) {
           BluetoothDevice device = bluetoothList[i];
-          PrinterBluetoothLocal data = PrinterBluetoothLocal(name: device.name, mac: device.address);
+          PrinterBluetoothLocal data =
+              PrinterBluetoothLocal(name: device.name, mac: device.address);
           list.add(data);
         }
         callback.call(list);
@@ -39,7 +40,11 @@ class AndroidPrinterBluetooth extends AbstractPrinterBluetooth {
 
   @override
   // ignore: missing_return
-  Future<PosPrintResult> writeBytes(List<int> bytes, PrinterBluetoothLocal bluetooth, int chunkSizeBytes, int queueSleepTimeMs) {
+  Future<PosPrintResult> writeBytes(
+      List<int> bytes,
+      PrinterBluetoothLocal bluetooth,
+      int chunkSizeBytes,
+      int queueSleepTimeMs) {
     bluetoothPrinter.isConnected.then((isConnected) async {
       if (!isConnected) {
         return connectAndPrinter(bytes, bluetooth);
@@ -58,7 +63,9 @@ class AndroidPrinterBluetooth extends AbstractPrinterBluetooth {
     List<int> bytes,
     PrinterBluetoothLocal bluetooth,
   ) async {
-    await bluetoothPrinter.connect(BluetoothDevice(bluetooth.name, bluetooth.mac)).catchError((error) {
+    await bluetoothPrinter
+        .connect(BluetoothDevice(bluetooth.name, bluetooth.mac))
+        .catchError((error) {
       return PosPrintResult.connectError;
     }).then((value) {
       if (value == true) {
