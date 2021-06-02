@@ -43,6 +43,10 @@ class PrinterBluetoothManager {
     return _printerBluetooth.disconnect(bluetooth);
   }
 
+  Future<bool> isConnected(){
+    return _printerBluetooth.isConnected();
+  }
+
   void startScan(Duration timeout, ScanResultsCallback callback) {
     _printerBluetooth.startScan(timeout, callback);
   }
