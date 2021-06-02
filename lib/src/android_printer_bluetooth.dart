@@ -9,12 +9,12 @@ import 'package:tig_ep_bluetooth/src/printer_bluetooth_manager.dart';
 class AndroidPrinterBluetooth extends AbstractPrinterBluetooth {
   BlueThermalPrinter bluetoothPrinter = BlueThermalPrinter.instance;
 
-  AndroidPrinterBluetooth(callback) : super(callback){
+  AndroidPrinterBluetooth(callback) : super(callback) {
     bluetoothPrinter.onStateChanged().listen((event) {
-      print("哈哈哈哈哈哈哈哈哈0000000：：：：：$event");
       callback.call(event);
     });
   }
+
   @override
   Future<void> startScan(Duration timeout, callback) async {
     List<BluetoothDevice> bluetoothList = [];
@@ -72,6 +72,20 @@ class AndroidPrinterBluetooth extends AbstractPrinterBluetooth {
       } else {
         return PosPrintResult.connectError;
       }
+    });
+  }
+
+  @override
+  Future<bool> connect(PrinterBluetoothLocal bluetooth) async {
+    return await bluetoothPrinter.connect(BluetoothDevice(bluetooth.name, bluetooth.mac)).catchError((error) {
+      return false;
+    });
+  }
+
+  @override
+  Future<bool> disconnect(PrinterBluetoothLocal bluetooth) async {
+    return await bluetoothPrinter.disconnect().catchError((onError) {
+      return false;
     });
   }
 }
